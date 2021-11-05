@@ -1,4 +1,5 @@
 import { NuxtConfig } from '@nuxt/types'
+import localeEn from './locales/en.json'
 
 const config: NuxtConfig = {
   ssr: false,
@@ -51,7 +52,9 @@ const config: NuxtConfig = {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    // https://i18n.nuxtjs.org/
+    '@nuxtjs/i18n'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -62,6 +65,22 @@ const config: NuxtConfig = {
       eslint: {
         files: './**/*.{ts,js,vue}'
       }
+    }
+  },
+
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+    strategy: 'no_prefix',
+    vueI18n: {
+      messages: {
+        en: localeEn
+      }
+    },
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      alwaysRedirect: true
     }
   },
 
