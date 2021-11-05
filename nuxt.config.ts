@@ -86,7 +86,9 @@ const config: NuxtConfig = {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // eslint-disable-next-line no-shadow
     extend (config) {
+      // eslint-disable-next-line no-param-reassign
       config.node = {
         fs: 'empty'
       }
