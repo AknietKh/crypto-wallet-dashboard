@@ -24,7 +24,10 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'vue/multi-word-component-names': 'off',
     'linebreak-style': 'off',
-    '@typescript-eslint/ban-ts-comment': ['off']
+    '@typescript-eslint/ban-ts-comment': ['off'],
+    'import/extensions': ['off'],
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsForRegex: ['^state'] }],
+    'no-console': 'off'
   },
   settings: {
     'import/resolver': {
