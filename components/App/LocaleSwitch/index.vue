@@ -1,5 +1,9 @@
 <template>
-  <base-select v-model="selectedLocale" :options="locales" />
+  <base-select
+    v-model="selectedLocale"
+    :options="locales"
+    :is-transparent="isDarkTheme"
+  />
 </template>
 
 <script lang='ts'>
@@ -18,6 +22,10 @@ export default MainMixin.extend({
         text: this.$t(`locales.${locale}`),
         value: locale
       }))
+    },
+    isDarkTheme () {
+      console.log('this.$colorMode.preference: ', this.$colorMode.preference)
+      return this.$colorMode.preference === 'dark'
     }
   },
   watch: {

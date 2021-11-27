@@ -5,7 +5,10 @@
   >
     <div
       class="base-select__preview"
-      :class="{'base-select__preview_rounded': rounded}"
+      :class="{
+        'base-select__preview_rounded': rounded,
+        'base-select__preview_transparent': isTransparent
+      }"
     >
       <slot
         v-if="$slots.prepend || prependText"
@@ -133,6 +136,10 @@ export default MainMixin.extend({
     prependText: {
       type: String,
       default: ''
+    },
+    isTransparent: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -179,7 +186,11 @@ export default MainMixin.extend({
       &_rounded {
         border-radius: 14px;
       }
+      &_transparent {
+        background-color: transparent;
+      }
     }
+
     &__button {
       display: flex;
       align-items: center;
@@ -204,6 +215,7 @@ export default MainMixin.extend({
       font-size: 24px;
       transition: .4s;
       margin-left: 10px;
+      color: $select-arrow;
       &_up {
         transform: rotate(180deg);
       }

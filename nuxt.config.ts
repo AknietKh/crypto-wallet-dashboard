@@ -1,5 +1,6 @@
 import { NuxtConfig } from '@nuxt/types'
 import localeEn from './locales/en.json'
+import localeRu from './locales/ru.json'
 
 const config: NuxtConfig = {
   ssr: false,
@@ -50,7 +51,8 @@ const config: NuxtConfig = {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build'
+    '@nuxt/typescript-build',
+    '@nuxtjs/color-mode'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -81,7 +83,8 @@ const config: NuxtConfig = {
     strategy: 'no_prefix',
     vueI18n: {
       messages: {
-        en: localeEn
+        en: localeEn,
+        ru: localeRu
       }
     },
     detectBrowserLanguage: {
@@ -89,6 +92,14 @@ const config: NuxtConfig = {
       cookieKey: 'i18n_redirected',
       alwaysRedirect: true
     }
+  },
+
+  colorMode: {
+    preference: 'system', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+    hid: 'nuxt-color-mode-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

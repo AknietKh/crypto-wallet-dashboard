@@ -29,6 +29,7 @@
     </div>
     <div class="menu__r">
       <locale-switch />
+      <switch-theme />
       <base-btn
         @click="$emit('init-wallet')"
       >
@@ -50,6 +51,7 @@ import { PropType } from 'vue'
 import MainMixin from '~/mixins/MainMixin'
 import BaseBurger from '~/components/ui/BaseBurger/index.vue'
 import LocaleSwitch from '~/components/App/LocaleSwitch/index.vue'
+import SwitchTheme from '~/components/App/SwitchTheme/index.vue'
 
 export interface IHeaderNavbar {
   link: string,
@@ -61,7 +63,8 @@ type HeaderNabarArray = Array<IHeaderNavbar>
 export default MainMixin.extend({
   components: {
     BaseBurger,
-    LocaleSwitch
+    LocaleSwitch,
+    SwitchTheme
   },
   props: {
     transparent: {
