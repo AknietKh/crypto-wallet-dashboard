@@ -19,9 +19,14 @@ const config: NuxtConfig = {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+      { href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap', rel: 'stylesheet' }
     ]
   },
+  loading: '~/components/ui/AppLoading/loading.vue',
+  loadingIndicator: '~/assets/loader.html',
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
@@ -35,7 +40,8 @@ const config: NuxtConfig = {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '@plugins/vee-validate.ts' }
+    { src: '@plugins/vee-validate.ts' },
+    { src: '@plugins/injectComponents.ts' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -70,7 +76,7 @@ const config: NuxtConfig = {
   },
 
   i18n: {
-    locales: ['en'],
+    locales: ['en', 'ru'],
     defaultLocale: 'en',
     strategy: 'no_prefix',
     vueI18n: {

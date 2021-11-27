@@ -27,7 +27,8 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': ['off'],
     'import/extensions': ['off'],
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsForRegex: ['^state'] }],
-    'no-console': 'off'
+    'no-console': 'off',
+    'max-len': ['error', { code: 150 }]
   },
   settings: {
     'import/resolver': {
