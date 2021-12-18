@@ -1,25 +1,26 @@
 <template>
   <div class="primary">
-    <app-header
-      @sidebar:open="openSidebar"
-      @init-wallet="initMetaMask"
-    />
-    <mobile-sidebar
-      class="default-sidebar"
-      :class="{'default-sidebar_hide': !isSidebarShown}"
-      @sidebar:close="closeSidebar"
-    >
-      <template #appendItem>
-        <base-btn @click="initMetaMask">
-          {{ $t('header.connectWallet') }}
-        </base-btn>
-      </template>
-    </mobile-sidebar>
     <div class="primary__template template">
+      <div class="template__header">
+        <app-header
+          class="template-header"
+          @sidebar:open="openSidebar"
+          @init-wallet="initMetaMask"
+        />
+      </div>
+      <mobile-sidebar
+        class="default-sidebar"
+        :class="{'default-sidebar_hide': !isSidebarShown}"
+        @sidebar:close="closeSidebar"
+      >
+        <template #appendItem>
+          <base-btn @click="initMetaMask">
+            {{ $t('header.connectWallet') }}
+          </base-btn>
+        </template>
+      </mobile-sidebar>
       <div class="template__content">
-        <div class="template__body">
-          <nuxt />
-        </div>
+        <nuxt />
       </div>
     </div>
     <base-modal-container />
@@ -76,26 +77,33 @@ export default MainMixin.extend({
   color: #333333;
 }
 .template {
-  display: grid;
-  grid-template-rows: 1fr min-content;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  overflow: hidden;
+  background: $default-background;
+  &__header {
+    border-bottom: 1px solid $header-border;
+  }
   &__content {
-    display: grid;
-    grid-template-rows: auto 1fr;
+    width: 100%;
+    max-width: 1170px;
     position: relative;
+    flex-grow: 1;
     z-index: 120;
+    margin: 30px auto;
     background: $default-background;
     &_mt {
       margin-top: 91px;
     }
   }
-  &__body {
-    height: 100%;
-  }
   &__footer {
 
   }
+}
+
+.template-header {
+  max-width: 1170px;
+  margin: 0 auto;
 }
 
 .default-sidebar {

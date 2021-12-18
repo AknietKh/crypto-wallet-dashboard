@@ -7,6 +7,9 @@
     "ru": "Rus",
     "en": "Eng"
   },
+  "balance-card": {
+    "title": "Your balance"
+  },
   "messages": {
     "alpha": "The {_field_} field may only contain alphabetic characters",
     "alpha_num": "The {_field_} field may only contain alpha-numeric characters",

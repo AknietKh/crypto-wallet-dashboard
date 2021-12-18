@@ -28,7 +28,8 @@ module.exports = {
     'import/extensions': ['off'],
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsForRegex: ['^state'] }],
     'no-console': 'off',
-    'max-len': ['error', { code: 150 }]
+    'max-len': ['error', { code: 150 }],
+    'import/no-dynamic-require': 'off'
   },
   settings: {
     'import/resolver': {

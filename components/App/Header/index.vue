@@ -11,7 +11,7 @@
         class="menu__logo"
       >
         <img
-          src="~/assets/img/logo-white-mode.svg"
+          :src="Require(SwitchTheme('logo-white-mode.svg', 'logo-dark-mode.svg'))"
           alt="Logo"
         >
       </nuxt-link>
@@ -97,9 +97,6 @@ export default MainMixin.extend({
   justify-content: space-between;
   width: 100%;
   height: 90px;
-  padding: 0 60px;
-  background: $default-background;
-  border-bottom: 1px solid $header-border;
   transition: all .2s ease-in-out;
   &_transparent {
     background: rgba(255, 255, 255, 0.1);

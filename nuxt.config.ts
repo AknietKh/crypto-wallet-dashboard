@@ -63,7 +63,8 @@ const config: NuxtConfig = {
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
     // https://i18n.nuxtjs.org/
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    'nuxt-clipboard'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -104,6 +105,9 @@ const config: NuxtConfig = {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    loaders: {
+      scss: { sourceMap: false }
+    },
     // eslint-disable-next-line no-shadow
     extend (config) {
       // eslint-disable-next-line no-param-reassign

@@ -29,7 +29,8 @@
       "@nuxtjs/axios",
       "@types/node",
       "@nuxtjs/i18n",
-      "@nuxtjs/color-mode"
+      "@nuxtjs/color-mode",
+      "nuxt-clipboard"
     ]
   },
   "exclude": [

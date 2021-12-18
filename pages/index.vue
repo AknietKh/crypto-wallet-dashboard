@@ -1,11 +1,23 @@
 <template>
-  <div>
-    hi
+  <div class="main-page">
+    <balance-card />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import MainMixin from '~/mixins/MainMixin'
+import BalanceCard from '~/components/App/BalanceCard/index.vue'
 
-export default Vue.extend({})
+export default MainMixin.extend({
+  name: 'MainPage',
+  components: {
+    BalanceCard
+  }
+})
 </script>
+
+<style lang="scss" scoped>
+  .main-page {
+
+  }
+</style>

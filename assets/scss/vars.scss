@@ -46,6 +46,13 @@
   // switch theme
   --switch-theme-bg:                            #F9F9F9;
   --switch-theme-border:                        #E3E3E3;
+
+  // balance card
+  --balance-card-bg:                              linear-gradient(253.94deg, #09F2C3 8.37%, #15DCE4 69.71%);
+  --balance-card-shadow:                          0px 10px 40px rgba(0, 0, 0, 0.1);
+  --balance-card-address-field:                  #FFFFFF;
+  --balance-card-copy:                           #E3E3E3;
+
   &.dark-mode {
     --default-background:                         #202020;
 
@@ -91,8 +98,14 @@
     --select-arrow:                               #FFFFFF;
 
     // switch theme
-    --switch-theme-bg:                            transparent;
+    --switch-theme-bg:                              transparent;
     --switch-theme-border:                        #3C3C3C;
+
+    // balance card
+    --balance-card-bg:                              linear-gradient(253.94deg, #09F2C3 8.37%, #15DCE4 69.71%);
+    --balance-card-shadow:                          0px 10px 40px rgba(0, 0, 0, 0.4);
+    --balance-card-address-field:                   #FFFFFF;
+    --balance-card-copy:                            #E3E3E3;
   }
 }
 
@@ -143,3 +156,9 @@ $select-arrow:                                    var(--select-arrow);
 // switch theme
 $switch-theme-bg:                                 var(--switch-theme-bg);
 $switch-theme-border:                             var(--switch-theme-border);
+
+// balance card
+$balance-card-bg:                                 var(--balance-card-bg);
+$balance-card-shadow:                             var(--balance-card-shadow);
+$balance-card-address-field:                      var(--balance-card-address-field);
+$balance-card-copy:                               var(--balance-card-copy)
