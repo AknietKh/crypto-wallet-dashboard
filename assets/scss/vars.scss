@@ -53,6 +53,8 @@
   --balance-card-address-field:                  #FFFFFF;
   --balance-card-copy:                           #E3E3E3;
 
+  // token card
+  --token-card-bg:                              #ECEBEB;
   &.dark-mode {
     --default-background:                         #202020;
 
@@ -106,6 +108,9 @@
     --balance-card-shadow:                          0px 10px 40px rgba(0, 0, 0, 0.4);
     --balance-card-address-field:                   #FFFFFF;
     --balance-card-copy:                            #E3E3E3;
+
+    // token card
+    --token-card-bg:                                #3C3C3C;
   }
 }
 
@@ -161,4 +166,7 @@ $switch-theme-border:                             var(--switch-theme-border);
 $balance-card-bg:                                 var(--balance-card-bg);
 $balance-card-shadow:                             var(--balance-card-shadow);
 $balance-card-address-field:                      var(--balance-card-address-field);
-$balance-card-copy:                               var(--balance-card-copy)
+$balance-card-copy:                               var(--balance-card-copy);
+
+// token card
+$token-card-bg:                                   var(--token-card-bg);
