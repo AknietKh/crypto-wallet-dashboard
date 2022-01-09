@@ -10,6 +10,9 @@
   "balance-card": {
     "title": "Your balance"
   },
+  "add-token": {
+    "btn": "Add token"
+  },
   "messages": {
     "alpha": "The {_field_} field may only contain alphabetic characters",
     "alpha_num": "The {_field_} field may only contain alpha-numeric characters",

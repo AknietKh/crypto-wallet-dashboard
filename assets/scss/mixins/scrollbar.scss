@@ -1,20 +1,20 @@
 @mixin base-scrollbar {
   //стили для mozila
-  scrollbar-color: $black200;     /* «цвет ползунка» «цвет полосы скроллбара» */
+  scrollbar-color: $scrollbar;     /* «цвет ползунка» «цвет полосы скроллбара» */
   scrollbar-width: thin;
   // стили для webkit браузеров
   &::-webkit-scrollbar {
     width: 5px; /* ширина для вертикального скролла */
     height: 5px; /* высота для горизонтального скролла */
-    background-color: $black100;
+    // background-color: ;
   }
   /* ползунок скроллбара */
   &::-webkit-scrollbar-thumb {
-    background-color: $black200;
+    background-color: $scrollbar;
     border-radius: 8px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background-color: $black300;
+    background-color: $scrollbar;
   }
   // &_hide {
   //   scrollbar-width: none;
