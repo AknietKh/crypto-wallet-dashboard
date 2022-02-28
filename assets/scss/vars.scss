@@ -57,6 +57,9 @@
 
   // token card
   --token-card-bg:                              #ECEBEB;
+
+  // transfer form
+  --transfer-form-bg:                              #ECEBEB;
   &.dark-mode {
     --default-background:                         #202020;
     --scrollbar:                                  #3C3C3C;
@@ -115,6 +118,9 @@
 
     // token card
     --token-card-bg:                                #3C3C3C;
+
+    // transfer form
+    --transfer-form-bg:                                #3C3C3C;
   }
 }
 
@@ -176,3 +182,4 @@ $balance-card-copy:                               var(--balance-card-copy);
 
 // token card
 $token-card-bg:                                   var(--token-card-bg);
+$transfer-form-bg:                                var(--transfer-form-bg);

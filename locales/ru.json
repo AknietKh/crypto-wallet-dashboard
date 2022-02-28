@@ -10,6 +10,26 @@
   "balance-card": {
     "title": "Ваш баланс"
   },
+  "add-token": {
+    "btn": "Добавить"
+  },
+  "transfer-form": {
+    "title": "Перевод средств",
+    "btns": {
+      "approve": "Подтвердить",
+      "transfer": "Перевести"
+    },
+    "fields": {
+      "amount": {
+        "label": "Кол-во",
+        "placeholder": "0"
+      },
+      "address": {
+        "label": "Адрес получателя",
+        "placeholder": "Адрес"
+      }
+    }
+  },
   "messages": {
     "alpha": "Поле \"{_field_}\" может содержать только буквы",
       "alpha_dash": "Поле \"{_field_}\" может содержать только буквы, цифры и дефис",

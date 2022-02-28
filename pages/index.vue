@@ -3,7 +3,7 @@
     <section class="main-page__section">
       <balance-card />
     </section>
-    <div class="main-page__section">
+    <section class="main-page__section">
       <div class="tokens-section">
         <div class="token-cards">
           <token-card v-for="token in tokens" :key="token.symbol" :token="token" />
@@ -15,7 +15,10 @@
           <span class="add-token__plus">+</span>
         </button>
       </div>
-    </div>
+    </section>
+    <section class="main-page__section">
+      <transfer-form />
+    </section>
   </div>
 </template>
 
@@ -23,12 +26,14 @@
 import MainMixin from '~/mixins/MainMixin'
 import BalanceCard from '~/components/App/BalanceCard/index.vue'
 import TokenCard from '~/components/App/TokenCard/index.vue'
+import TransferForm from '~/components/App/TransferForm/index.vue'
 
 export default MainMixin.extend({
   name: 'MainPage',
   components: {
     BalanceCard,
-    TokenCard
+    TokenCard,
+    TransferForm
   },
   data () {
     return {
@@ -37,30 +42,6 @@ export default MainMixin.extend({
   computed: {
     tokens () {
       return [
-        {
-          symbol: 'ETH',
-          amount: 10
-        },
-        {
-          symbol: 'BTC',
-          amount: 100
-        },
-        {
-          symbol: 'ETH',
-          amount: 10
-        },
-        {
-          symbol: 'BTC',
-          amount: 100
-        },
-        {
-          symbol: 'ETH',
-          amount: 10
-        },
-        {
-          symbol: 'BTC',
-          amount: 100
-        },
         {
           symbol: 'ETH',
           amount: 10
@@ -89,7 +70,6 @@ export default MainMixin.extend({
   .token-cards {
     @include base-scrollbar;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     overflow-x: auto;
     border-top-right-radius: 14px;
@@ -116,6 +96,7 @@ export default MainMixin.extend({
     }
     &__plus {
       font-size: 26px;
+      color: $main-text-color;
     }
   }
 </style>

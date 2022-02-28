@@ -77,6 +77,7 @@
               {'base-input-group__input_invalid': invalid && validated},
               inputClasses
             ]"
+            v-on="listeners"
           >
         </slot>
 
@@ -200,17 +201,39 @@ export default MainMixin.extend({
     }
   },
   computed: {
-    slotData () {
+    listeners (): Record<string, unknown> {
       return {
-        error: this.error
+        ...this.$listeners,
+        input: this.updateValue,
+        focus: this.onFocus,
+        blur: this.onBlur
       }
     },
-    group () {
+    slotData (): Record<string, unknown> {
+      return {
+        focused: this.focused,
+        error: this.error,
+        ...this.listeners
+      }
+    },
+    group (): boolean {
       const { appendBtn, prependBtn } = this.$slots
       return appendBtn !== undefined || prependBtn !== undefined
     }
   },
   methods: {
+    updateValue (evt: InputEvent): void {
+      const { value } = evt.target as HTMLInputElement
+      this.$emit('input', value)
+    },
+    onFocus (evt: Event): void {
+      this.focused = true
+      this.$emit('focus', evt)
+    },
+    onBlur (evt: Event): void {
+      this.focused = false
+      this.$emit('blur', evt)
+    }
   }
 })
 </script>
@@ -222,9 +245,9 @@ export default MainMixin.extend({
     &_described {
       height: 95px;
     }
-    &_invalid {
+    // &_invalid {
 
-    }
+    // }
     &__label {
       font-size: 16px;
       line-height: 145%;

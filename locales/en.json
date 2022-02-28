@@ -13,6 +13,23 @@
   "add-token": {
     "btn": "Add token"
   },
+  "transfer-form": {
+    "title": "Transfer",
+    "btns": {
+      "approve": "Approve",
+      "transfer": "Transfer"
+    },
+    "fields": {
+      "amount": {
+        "label": "Amount",
+        "placeholder": "0"
+      },
+      "address": {
+        "label": "Address (Recipient)",
+        "placeholder": "Address"
+      }
+    }
+  },
   "messages": {
     "alpha": "The {_field_} field may only contain alphabetic characters",
     "alpha_num": "The {_field_} field may only contain alpha-numeric characters",
