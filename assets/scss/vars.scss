@@ -60,6 +60,10 @@
 
   // transfer form
   --transfer-form-bg:                              #ECEBEB;
+
+  // transactions
+  --transaction-card-bg:                          #ECEBEB;
+  --transaction-badge-bg:                         #ffffff;
   &.dark-mode {
     --default-background:                         #202020;
     --scrollbar:                                  #3C3C3C;
@@ -120,7 +124,11 @@
     --token-card-bg:                                #3C3C3C;
 
     // transfer form
-    --transfer-form-bg:                                #3C3C3C;
+    --transfer-form-bg:                             #3C3C3C;
+
+    // transactions
+    --transaction-card-bg:                          #3C3C3C;
+    --transaction-badge-bg:                         #585858;
   }
 }
 
@@ -183,3 +191,5 @@ $balance-card-copy:                               var(--balance-card-copy);
 // token card
 $token-card-bg:                                   var(--token-card-bg);
 $transfer-form-bg:                                var(--transfer-form-bg);
+$transaction-card-bg:                             var(--transaction-card-bg);
+$transaction-badge-bg:                            var(--transaction-badge-bg);

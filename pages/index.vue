@@ -19,6 +19,9 @@
     <section class="main-page__section">
       <transfer-form />
     </section>
+    <section class="main-page__section">
+      <transactions-table />
+    </section>
   </div>
 </template>
 
@@ -27,13 +30,15 @@ import MainMixin from '~/mixins/MainMixin'
 import BalanceCard from '~/components/App/BalanceCard/index.vue'
 import TokenCard from '~/components/App/TokenCard/index.vue'
 import TransferForm from '~/components/App/TransferForm/index.vue'
+import TransactionsTable from '~/components/App/TransactionTable/index.vue'
 
 export default MainMixin.extend({
   name: 'MainPage',
   components: {
     BalanceCard,
     TokenCard,
-    TransferForm
+    TransferForm,
+    TransactionsTable
   },
   data () {
     return {

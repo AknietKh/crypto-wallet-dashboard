@@ -30,6 +30,16 @@
       }
     }
   },
+  "transactions": {
+    "title": "Transactions",
+    "types": {
+      "approve": "Approve",
+      "transfer": "Transfer"
+    },
+    "from": "From",
+    "to": "To",
+    "amount": "Amount"
+  },
   "messages": {
     "alpha": "The {_field_} field may only contain alphabetic characters",
     "alpha_num": "The {_field_} field may only contain alpha-numeric characters",
