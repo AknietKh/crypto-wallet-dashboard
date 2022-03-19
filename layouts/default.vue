@@ -66,6 +66,9 @@ export default MainMixin.extend({
       }
     }
   },
+  created () {
+    this.$store.dispatch('main/connectNode')
+  },
   methods: {
     openSidebar () {
       this.isSidebarShown = true

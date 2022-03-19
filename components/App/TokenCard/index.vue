@@ -11,8 +11,18 @@
       </p>
     </div>
     <div class="token-card__body">
-      <p class="token-card__amount">
-        {{ token.amount }} {{ token.symbol }}
+      <p v-if="isLoading">
+        loading
+      </p>
+      <p
+        v-if="token.balance || token.balance === 0"
+        class="token-card__amount"
+        :title="token.balance"
+      >
+        {{ $cn(token.balance, 6) }} {{ token.symbol }}
+      </p>
+      <p v-else class="token-card__amount">
+        Connect wallet first
       </p>
     </div>
   </div>
@@ -22,29 +32,47 @@
 import { PropType } from 'vue'
 import { mapGetters } from 'vuex'
 import MainMixin from '~/mixins/MainMixin'
-
-export interface ITokenCard {
-  symbol: string,
-  amount: number,
-}
+import { IToken } from '~/store/main/state'
 
 export default MainMixin.extend({
   name: 'TokenCard',
   props: {
     token: {
-      type: Object as PropType<ITokenCard>,
-      default: ():ITokenCard => ({
-        symbol: '',
-        amount: 0
-      })
+      type: Object as PropType<IToken>,
+      required: true
+    }
+  },
+  data () {
+    return {
+      isLoading: false
     }
   },
   computed: {
     ...mapGetters({
-      tokensLogo: 'main/getTokensUrl'
+      tokensLogo: 'main/getTokensUrl',
+      isConnected: 'main/getIsConnected'
     }),
     tokenLogo () {
       return this.tokensLogo[this.token.symbol.toUpperCase()] || this.Require('default-token.svg')
+    }
+  },
+  watch: {
+    isConnected (isConnected: boolean) {
+      if (isConnected) {
+        this.updateBalances()
+      }
+    }
+  },
+  methods: {
+    async updateBalances () {
+      try {
+        this.isLoading = true
+        await this.$store.dispatch('main/updateTokenBalance', this.token)
+      } catch (err) {
+        console.log('err: ', err)
+      } finally {
+        this.isLoading = false
+      }
     }
   }
 })

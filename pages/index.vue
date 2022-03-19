@@ -1,12 +1,19 @@
 <template>
   <div class="main-page">
     <section class="main-page__section">
-      <balance-card />
+      <balance-card :token="selectedToken" />
     </section>
     <section class="main-page__section">
       <div class="tokens-section">
         <div class="token-cards">
-          <token-card v-for="token in tokens" :key="token.symbol" :token="token" />
+          <token-card
+            v-for="token in tokens"
+            :key="token.symbol"
+            :token="token"
+            class="token-card"
+            :class="{'token-card_active': selectedToken && token.symbol === selectedToken.symbol}"
+            @click.native="handleSelectToken(token)"
+          />
         </div>
         <button type="button" class="add-token">
           <p class="add-token__text">
@@ -26,11 +33,13 @@
 </template>
 
 <script lang="ts">
+import { mapGetters } from 'vuex'
 import MainMixin from '~/mixins/MainMixin'
 import BalanceCard from '~/components/App/BalanceCard/index.vue'
 import TokenCard from '~/components/App/TokenCard/index.vue'
 import TransferForm from '~/components/App/TransferForm/index.vue'
 import TransactionsTable from '~/components/App/TransactionTable/index.vue'
+import { IToken } from '~/store/main/state'
 
 export default MainMixin.extend({
   name: 'MainPage',
@@ -42,21 +51,40 @@ export default MainMixin.extend({
   },
   data () {
     return {
+      selectedToken: null as IToken | null
     }
   },
   computed: {
-    tokens () {
-      return [
-        {
-          symbol: 'ETH',
-          amount: 10
-        },
-        {
-          symbol: 'BTC',
-          amount: 100
-        }
-      ]
+    ...mapGetters({
+      tokensMap: 'main/getUserTokensMap'
+      // isConnected: 'main/getIsConnected'
+    }),
+    tokens (): IToken[] {
+      return Object.values(this.tokensMap)
     }
+  },
+  // watch: {
+  //   isConnected (isConnected) {
+  //     if (isConnected) {
+  //       this.updateBalances()
+  //     }
+  //   }
+  // },
+  created () {
+    this.$store.dispatch('main/setUserTokens');
+    [this.selectedToken] = this.tokens
+  },
+  methods: {
+    handleSelectToken (token: IToken) {
+      this.selectedToken = token
+    }
+    // updateBalances () {
+    //   try {
+    //     this.$store.dispatch('main/updateTokensBalance')
+    //   } catch (err) {
+    //     console.log('err: ', err)
+    //   }
+    // }
   }
 })
 </script>
@@ -82,6 +110,12 @@ export default MainMixin.extend({
     // box-shadow: 0px 10px 40px rgba(3, 3, 3, 0.1);
     :not(:last-child) {
       margin-right: 20px;
+    }
+  }
+  .token-card {
+    cursor: pointer;
+    &_active {
+      border: 2px solid #000000;
     }
   }
   .add-token {

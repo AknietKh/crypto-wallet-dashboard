@@ -13,12 +13,24 @@ export interface ITrustwalletToken {
 }
 
 export interface ITokensUrlsMap {
-  [key: string]: string | null | undefined
+  [key: string]: string | null
+}
+
+export interface IToken {
+  symbol: string,
+  name?: string,
+  decimals: number,
+  address: string,
+  balance?: number | null
+}
+
+export interface ITokensMap {
+  [key: string]: IToken
 }
 
 export interface IMainState {
   isLoading: boolean,
-  userTokens: object,
+  tokensMap: ITokensMap,
   tokensLogo: ITokensUrlsMap,
   isConnected: boolean,
   userAddress: string,
@@ -27,7 +39,7 @@ export interface IMainState {
 
 export const initState = (): IMainState => ({
   isLoading: false,
-  userTokens: {},
+  tokensMap: {},
   tokensLogo: {},
   isConnected: false,
   userAddress: '',

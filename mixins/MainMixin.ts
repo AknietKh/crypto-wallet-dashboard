@@ -1,6 +1,6 @@
+import Vue from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BvToast } from 'bootstrap-vue'
-import Vue from 'vue'
 import { IModalOptions } from '~/store/modals/state'
 
 export enum TOAST_TYPES {
@@ -32,6 +32,16 @@ export default Vue.extend({
         title,
         variant: type
       })
+    },
+    $cn (value: number | null | undefined, max: number, min = 0, pre = '', post = '') {
+      if (value === null || typeof value === 'undefined') { return '-' }
+
+      const options = {
+        maximumFractionDigits: max,
+        minimumFractionDigits: min
+      }
+
+      return `${pre}${this.$n(value, options)}${post}`
     }
   }
 })

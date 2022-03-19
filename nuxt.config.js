@@ -74,7 +74,8 @@ const config = {
   axios: {},
 
   env: {
-    IS_MAINNET: process.env.IS_MAINNET
+    IS_MAINNET: process.env.IS_MAINNET,
+    INFURA_API: process.env.INFURA_API
   },
 
   typescript: {

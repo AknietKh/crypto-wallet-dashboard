@@ -4,12 +4,19 @@
       <h2 class="balance-card__title">
         {{ $t('balance-card.title') }}
       </h2>
-      <p class="balance-card__balance">
-        {{ balance }}
+      <p
+        v-if="token.balance || token.balance === 0"
+        :title="token.balance"
+        class="balance-card__balance"
+      >
+        {{ $cn(token.balance, 8) }} {{ token.symbol }}
+      </p>
+      <p v-else class="balance-card__balance">
+        -
       </p>
       <div class="balance-card__address-field copy-field">
         <p class="copy-field__user-address">
-          {{ userAddress }}
+          {{ userAddress || 'Connect wallet first' }}
         </p>
         <button class="copy-field__copy" @click="handleCopy">
           <span class="icon-copy copy-field__icon" />
@@ -27,19 +34,23 @@
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue'
+import { mapGetters } from 'vuex'
 import MainMixin from '~/mixins/MainMixin'
+import { IToken } from '~/store/main/state'
 
 export default MainMixin.extend({
   name: 'BalanceCard',
-  data () {
-    return {
-      balance: '12'
+  props: {
+    token: {
+      type: Object as PropType<IToken>,
+      required: true
     }
   },
   computed: {
-    userAddress () {
-      return 'asdfasdf'
-    }
+    ...mapGetters({
+      userAddress: 'main/getUserAddress'
+    })
   },
   methods: {
     handleCopy ():void {
@@ -90,6 +101,10 @@ export default MainMixin.extend({
     background: $balance-card-address-field;
     border-radius: 35px;
     padding: 12px 5px 12px 13px;
+    &__user-address {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     &__copy {
       padding: 5px 8px;
       border-radius: 50%;

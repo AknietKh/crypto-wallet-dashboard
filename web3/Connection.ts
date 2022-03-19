@@ -1,6 +1,6 @@
 import Web3 from 'web3'
 import { error } from './helpers'
-import { NETWORKS_MAINNET, NETWORKS_TESTNET } from '~/web3/configs/constants'
+import { ANON_PROVIDERS_MAINNET, ANON_PROVIDERS_TESTNET, NETWORKS_MAINNET, NETWORKS_TESTNET } from '~/web3/configs/constants'
 import {
   methodSwitchRpcEth,
   methodAddRpcBsc,
@@ -62,15 +62,10 @@ export default class ConnectionWeb3 {
   }
 
   // Метод для анонимного подключения к ноде
-  public connectAnonProvider (): void {
-    let anonProviderUrl = ''
+  public connectAnonProvider (chainId: number): void {
+    const providersUrl = JSON.parse(`${process.env.IS_MAINNET}`) ? ANON_PROVIDERS_MAINNET : ANON_PROVIDERS_TESTNET
 
-    if (process.env.IS_MAINNET === 'true') {
-      anonProviderUrl = `wss://mainnet.infura.io/ws/v3/${process.env.INFURA_KEY}`
-    } else {
-      anonProviderUrl = `wss://rinkeby.infura.io/ws/v3/${process.env.INFURA_KEY}`
-    }
-    const provider = new Web3.providers.WebsocketProvider(anonProviderUrl)
+    const provider = new Web3.providers.HttpProvider(providersUrl[chainId])
     this.web3Guest = new Web3(provider)
   }
 
