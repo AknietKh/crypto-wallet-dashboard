@@ -21,14 +21,17 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-    'vue/multi-word-component-names': 'off',
-    'linebreak-style': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
     '@typescript-eslint/ban-ts-comment': ['off'],
-    'import/extensions': ['off'],
+    '@typescript-eslint/no-explicit-any': ['off'],
+    'no-shadow': 'off',
+    'import/no-extraneous-dependencies': ['off'],
+    'linebreak-style': 'off',
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsForRegex: ['^state'] }],
     'no-console': 'off',
     'max-len': ['error', { code: 150 }],
+    'vue/multi-word-component-names': 'off',
+    'import/extensions': ['off'],
     'import/no-dynamic-require': 'off'
   },
   settings: {

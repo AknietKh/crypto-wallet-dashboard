@@ -33,7 +33,7 @@
       <base-btn
         @click="$emit('init-wallet')"
       >
-        {{ false ? $t('header.connectedWallet') : $t('header.connectWallet') }}
+        {{ isConnected ? preparedUserAddress : $t('header.connectWallet') }}
       </base-btn>
     </div>
 
@@ -46,6 +46,7 @@
 </template>
 
 <script lang="ts">
+import { TranslateResult } from 'vue-i18n'
 import { mapGetters } from 'vuex'
 import { PropType } from 'vue'
 import MainMixin from '~/mixins/MainMixin'
@@ -78,11 +79,20 @@ export default MainMixin.extend({
     sticky: {
       type: Boolean,
       default: false
+    },
+    btnText: {
+      type: String as PropType<string | TranslateResult>,
+      default: 'Connect wallet'
     }
   },
   computed: {
     ...mapGetters({
-    })
+      isConnected: 'main/getIsConnected',
+      userAddress: 'main/getUserAddress'
+    }),
+    preparedUserAddress () {
+      return `${this.userAddress.slice(0, 5)}...${this.userAddress.slice(-5)}`
+    }
   }
 })
 </script>

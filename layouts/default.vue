@@ -4,6 +4,7 @@
       <div class="template__header">
         <app-header
           class="template-header"
+          :btn-text="connectBtnText"
           @sidebar:open="openSidebar"
           @init-wallet="initMetaMask"
         />
@@ -15,7 +16,7 @@
       >
         <template #appendItem>
           <base-btn @click="initMetaMask">
-            {{ $t('header.connectWallet') }}
+            {{ connectBtnText }}
           </base-btn>
         </template>
       </mobile-sidebar>
@@ -29,9 +30,12 @@
 
 <script lang="ts">
 import { mapGetters } from 'vuex'
+import { TranslateResult } from 'vue-i18n'
 import MainMixin from '~/mixins/MainMixin'
 import AppHeader from '~/components/App/Header/index.vue'
 import MobileSidebar from '~/components/ui/MobileSeibebar/index.vue'
+import { PROVIDER_INSTALL_ERROR } from '~/web3/Connection'
+import { ICustomError } from '~/web3/helpers'
 
 export default MainMixin.extend({
   components: {
@@ -45,8 +49,13 @@ export default MainMixin.extend({
   },
   computed: {
     ...mapGetters({
-      loading: 'main/getLoadingStatus'
-    })
+      loading: 'main/getLoadingStatus',
+      isConnected: 'main/getIsConnected',
+      userAddress: 'main/getUserAddress'
+    }),
+    connectBtnText (): string | TranslateResult {
+      return this.isConnected ? `${this.userAddress.slice(0, 5)}...${this.userAddress.slice(-5)}` : this.$t('header.connectWallet')
+    }
   },
   watch: {
     loading (val) {
@@ -64,8 +73,26 @@ export default MainMixin.extend({
     closeSidebar () {
       this.isSidebarShown = false
     },
-    initMetaMask () {
-      console.log('init')
+    async initMetaMask () {
+      try {
+        await this.$store.dispatch('main/connectWallet')
+      } catch (_err) {
+        const err = _err as ICustomError
+        switch (err.code) {
+          case PROVIDER_INSTALL_ERROR.NO_METAMASK:
+            this.ShowToast("You don't have a Metamask installed")
+            break
+          case PROVIDER_INSTALL_ERROR.NO_COINBASE:
+            this.ShowToast("You don't have a Conbase installed")
+            break
+          case PROVIDER_INSTALL_ERROR.NO_ANY_WALLET:
+            this.ShowToast('You do not have a wallet installed - Metamask or Coinbase')
+            break
+          default:
+            this.ShowToast('Oops, something went wrong, try to later')
+            break
+        }
+      }
     }
   }
 })

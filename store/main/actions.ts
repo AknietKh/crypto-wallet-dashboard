@@ -1,10 +1,21 @@
 
 import { ActionTree } from 'vuex/types/index'
 import { IMainState, ITrustwalletToken, ITokensUrlsMap } from '~/store/main/state'
+import ConnectionWeb3 from '~/web3/Connection'
 
 const actions: ActionTree<IMainState, IMainState> = {
   setLoading ({ commit }, status) {
     commit('setLoading', status)
+  },
+  async connectWallet ({ getters, commit }) {
+    const connection = ConnectionWeb3.getInstance()
+    const chainId = getters.getChainId
+
+    await connection.connectWallet(chainId, 'metamask')
+
+    commit('setUserAddress', connection.userAddress)
+    commit('setChainId', connection.chainId)
+    commit('setIsConnected', connection.isConnected)
   },
   async fetchTokenUrls ({ commit }) {
     const [

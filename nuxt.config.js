@@ -1,8 +1,10 @@
-import { NuxtConfig } from '@nuxt/types'
 import localeEn from './locales/en.json'
 import localeRu from './locales/ru.json'
 
-const config: NuxtConfig = {
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config()
+
+const config = {
   ssr: false,
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -52,7 +54,8 @@ const config: NuxtConfig = {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    '@nuxtjs/color-mode'
+    '@nuxtjs/color-mode',
+    '@nuxtjs/dotenv'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -69,6 +72,10 @@ const config: NuxtConfig = {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
+
+  env: {
+    IS_MAINNET: process.env.IS_MAINNET
+  },
 
   typescript: {
     typeCheck: {
@@ -108,10 +115,9 @@ const config: NuxtConfig = {
     loaders: {
       scss: { sourceMap: false }
     },
-    // eslint-disable-next-line no-shadow
-    extend (config) {
+    extend (buildConfig) {
       // eslint-disable-next-line no-param-reassign
-      config.node = {
+      buildConfig.node = {
         fs: 'empty'
       }
     }

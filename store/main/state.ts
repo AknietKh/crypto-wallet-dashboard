@@ -1,3 +1,5 @@
+import { NETWORKS_MAINNET, NETWORKS_TESTNET } from '~/web3/configs/constants'
+
 export interface ITrustwalletToken {
   asset: string,
   type: string,
@@ -18,12 +20,19 @@ export interface IMainState {
   isLoading: boolean,
   userTokens: object,
   tokensLogo: ITokensUrlsMap,
+  isConnected: boolean,
+  userAddress: string,
+  chainId: number
 }
 
 export const initState = (): IMainState => ({
-  isLoading: true,
+  isLoading: false,
   userTokens: {},
-  tokensLogo: {}
+  tokensLogo: {},
+  isConnected: false,
+  userAddress: '',
+  chainId: JSON.parse(`${process.env.IS_MAINNET}`) ? NETWORKS_MAINNET.ETH : NETWORKS_TESTNET.ETH
 })
+console.log('JSON.parse(process.env.IS_MAINNET): ', JSON.parse(`${process.env.IS_MAINNET}`))
 
 export default initState
