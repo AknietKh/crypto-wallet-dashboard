@@ -5,11 +5,11 @@
         {{ $t('balance-card.title') }}
       </h2>
       <p
-        v-if="token.balance || token.balance === 0"
+        v-if="isConnected"
         :title="token.balance"
         class="balance-card__balance"
       >
-        {{ $cn(token.balance, 8) }} {{ token.symbol }}
+        {{ $cn(token.balance, 6) }} {{ token.symbol }}
       </p>
       <p v-else class="balance-card__balance">
         -
@@ -49,7 +49,8 @@ export default MainMixin.extend({
   },
   computed: {
     ...mapGetters({
-      userAddress: 'main/getUserAddress'
+      userAddress: 'main/getUserAddress',
+      isConnected: 'main/getIsConnected'
     })
   },
   methods: {
@@ -68,7 +69,7 @@ export default MainMixin.extend({
     background: $balance-card-bg;
     box-shadow: $balance-card-shadow;
     &__left {
-      max-width: 422px;
+      max-width: 480px;
       width: 100%;
       padding: 35px;
     }

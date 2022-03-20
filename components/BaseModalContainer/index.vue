@@ -17,12 +17,14 @@ import modals from '~/store/modals/modals'
 
 import BaseModalStatus from '~/components/Modals/BaseModalStatus/index.vue'
 import BaseModalDefault from '~/components/Modals/BaseModalDefault/index.vue'
+import AddTokenModal from '~/components/Modals/AddTokenModal/index.vue'
 
 export default MainMixin.extend({
   name: 'BaseModalContainer',
   components: {
     'base-modal-status': BaseModalStatus,
-    'base-modal-default': BaseModalDefault
+    'base-modal-default': BaseModalDefault,
+    'add-token-modal': AddTokenModal
   },
   data: () => ({
     modals

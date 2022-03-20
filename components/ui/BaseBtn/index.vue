@@ -73,7 +73,7 @@ export default MainMixin.extend({
     },
     loaderColor: {
       type: String,
-      default: '#FFFFFF'
+      default: '#09F2C3'
     }
   },
   computed: {

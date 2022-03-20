@@ -9,9 +9,11 @@
       </div>
       <button
         v-if="!options.isUnclosable"
-        class="base-modal__x icon-Close"
+        class="base-modal__x"
         @click="close()"
-      />
+      >
+        ×
+      </button>
     </div>
     <slot />
   </div>

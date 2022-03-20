@@ -15,7 +15,7 @@
     </div>
     <div class="token-card__body">
       <p
-        v-if="token.balance || token.balance === 0"
+        v-if="isConnected"
         class="token-card__amount"
         :title="token.balance"
       >
@@ -59,12 +59,19 @@ export default MainMixin.extend({
   watch: {
     isConnected (isConnected: boolean) {
       if (isConnected) {
-        this.updateBalances()
+        this.updateBalance()
+      }
+    },
+    token (token, oldToken) {
+      console.log('token: ', token)
+      console.log('oldToken: ', oldToken)
+      if (token.symol !== oldToken.sumbol) {
+        this.updateBalance()
       }
     }
   },
   methods: {
-    async updateBalances () {
+    async updateBalance () {
       try {
         this.isLoading = true
         await this.$store.dispatch('main/updateTokenBalance', this.token)

@@ -12,6 +12,7 @@ import * as rules from 'vee-validate/dist/rules'
 import { Context } from '@nuxt/types'
 import { VeeValidateConfig } from 'vee-validate/dist/types/config'
 import { ValidationRule } from 'vee-validate/dist/types/types'
+import Web3 from 'web3'
 
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
@@ -29,3 +30,7 @@ export default ({ app }: Context) => {
     defaultMessage: (_field_, values) => app.i18n.t(`messages.${values._rule_}`, values)
   } as VeeValidateConfig)
 }
+
+extend('isAddress', {
+  validate: value => Web3.utils.isAddress(value)
+})

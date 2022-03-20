@@ -15,7 +15,12 @@
             @click.native="handleSelectToken(token)"
           />
         </div>
-        <button type="button" class="add-token">
+        <button
+          type="button"
+          class="add-token"
+          :disabled="!isConnected"
+          @click="handleAddToken"
+        >
           <p class="add-token__text">
             {{ $t('add-token.btn') }}
           </p>
@@ -40,6 +45,7 @@ import TokenCard from '~/components/App/TokenCard/index.vue'
 import TransferForm from '~/components/App/TransferForm/index.vue'
 import TransactionsTable from '~/components/App/TransactionTable/index.vue'
 import { IToken } from '~/store/main/state'
+import modals from '~/store/modals/modals'
 
 export default MainMixin.extend({
   name: 'MainPage',
@@ -56,20 +62,13 @@ export default MainMixin.extend({
   },
   computed: {
     ...mapGetters({
-      tokensMap: 'main/getUserTokensMap'
-      // isConnected: 'main/getIsConnected'
+      tokensMap: 'main/getUserTokensMap',
+      isConnected: 'main/getIsConnected'
     }),
     tokens (): IToken[] {
       return Object.values(this.tokensMap)
     }
   },
-  // watch: {
-  //   isConnected (isConnected) {
-  //     if (isConnected) {
-  //       this.updateBalances()
-  //     }
-  //   }
-  // },
   created () {
     this.$store.dispatch('main/setUserTokens');
     [this.selectedToken] = this.tokens
@@ -77,14 +76,10 @@ export default MainMixin.extend({
   methods: {
     handleSelectToken (token: IToken) {
       this.selectedToken = token
+    },
+    handleAddToken () {
+      this.ShowModal({ key: modals.addToken })
     }
-    // updateBalances () {
-    //   try {
-    //     this.$store.dispatch('main/updateTokensBalance')
-    //   } catch (err) {
-    //     console.log('err: ', err)
-    //   }
-    // }
   }
 })
 </script>

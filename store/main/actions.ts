@@ -42,6 +42,19 @@ const actions: ActionTree<IMainState, IMainState> = {
 
     commit('setUserTokens', JSON.parse(tokens))
   },
+  async addToken ({ commit, dispatch, getters }, address) {
+    const chainId = getters.getChainId
+    const [symbol, name, decimals] = await Promise.all([
+      fetchContractData({ address, method: 'symbol', abi: ERC20 }),
+      fetchContractData({ address, method: 'name', abi: ERC20 }),
+      fetchContractData({ address, method: 'decimals', abi: ERC20 })
+    ])
+
+    const token: IToken = { address, symbol, name, decimals, balance: null }
+    commit('addUserToken', { token, chainId })
+
+    await dispatch('updateTokenBalance', token)
+  },
   async updateAllTokensBalance ({ getters, commit }) {
     const userAddress = getters.getUserAddress
     const tokens: IToken[] = Object.values(getters.getTokensMap)

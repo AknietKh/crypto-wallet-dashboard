@@ -299,7 +299,7 @@ export default MainMixin.extend({
       outline: none;
       background-color: $fields;
       &_rounded {
-        border-radius: 10px;
+        border-radius: 14px;
       }
       &_invalid {
         background-color: $fields;

@@ -17,6 +17,12 @@ const mutations: MutationTree<IMainState> = {
   setUserTokens (state, tokensMap: ITokensMap) {
     state.tokensMap = tokensMap
   },
+  addUserToken (state, { token, chainId }:{token: IToken, chainId: number}) {
+    const copy = JSON.parse(JSON.stringify(state.tokensMap))
+    copy[token.address] = token
+    state.tokensMap = copy
+    localStorage.setItem(`tokens-${chainId}`, JSON.stringify(copy))
+  },
   updateAllTokensBalance (state, tokens: IToken[]) {
     tokens.forEach((token) => {
       state.tokensMap[token.address].balance = token.balance
