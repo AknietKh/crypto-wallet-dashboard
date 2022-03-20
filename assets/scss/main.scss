@@ -7,3 +7,23 @@
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
+
+@keyframes move {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+.skeleton {
+  //transition: all 2s ease;
+  background: linear-gradient(111.86deg, rgba(32, 32, 32, 0.045), rgba(32, 32, 32, 0.09) 10%, rgba(32, 32, 32, 0.3) 44.5%, rgba(32, 32, 32, 0.09) 90%, rgba(32, 32, 32, 0.045)) no-repeat 100% 0/200% 100% rgba(32, 32, 32, 0.15);
+
+  animation: move 4s linear infinite;
+  border-radius: 14px;
+}
+
+.dark-mode .skeleton {
+  background: linear-gradient(111.86deg, rgba(236, 235, 235, 0), rgba(236, 235, 235, 0.045) 10%, rgba(236, 235, 235, 0.15) 44.5%, rgba(236, 235, 235, 0.045) 90%, rgba(236, 235, 235, 0)) no-repeat 100% 0/200% 100% rgba(236, 235, 235, 0.15);
+}

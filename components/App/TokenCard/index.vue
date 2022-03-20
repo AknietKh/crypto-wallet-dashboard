@@ -1,5 +1,8 @@
 <template>
-  <div class="token-card">
+  <div
+    class="token-card"
+    :class="{'skeleton': isLoading}"
+  >
     <div class="token-card__header token-card__header_mb">
       <img
         class="token-card__logo"
@@ -11,9 +14,6 @@
       </p>
     </div>
     <div class="token-card__body">
-      <p v-if="isLoading">
-        loading
-      </p>
       <p
         v-if="token.balance || token.balance === 0"
         class="token-card__amount"
@@ -79,6 +79,10 @@ export default MainMixin.extend({
 </script>
 
 <style lang="scss">
+  .skeleton_size {
+    min-width: 206px;
+    height: 100%;
+  }
   .token-card {
     min-width: 206px;
     padding: 20px;
