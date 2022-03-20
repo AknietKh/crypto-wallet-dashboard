@@ -5,7 +5,7 @@ import { IModalOptions } from '~/store/modals/state'
 
 export enum TOAST_TYPES {
   SUCCESS = 'success',
-  ERROR = 'error'
+  ERROR = 'danger'
 }
 
 // declare module 'vue/types/vue' {
@@ -26,7 +26,7 @@ export default Vue.extend({
     SwitchTheme (light: string, dark: string):string {
       return this.$colorMode.preference === 'light' ? light : dark
     },
-    ShowToast (message: string, type: TOAST_TYPES = TOAST_TYPES.ERROR) {
+    ShowToast (message: string, type = TOAST_TYPES.ERROR) {
       const title = type === TOAST_TYPES.SUCCESS ? 'Success' : 'Error'
       this.$bvToast.toast(message, {
         title,

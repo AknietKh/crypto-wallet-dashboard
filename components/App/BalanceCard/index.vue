@@ -18,7 +18,7 @@
         <p class="copy-field__user-address">
           {{ userAddress || 'Connect wallet first' }}
         </p>
-        <button class="copy-field__copy" @click="handleCopy">
+        <button class="copy-field__copy" :disabled="!isConnected" @click="handleCopy">
           <span class="icon-copy copy-field__icon" />
         </button>
       </div>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import { PropType } from 'vue'
 import { mapGetters } from 'vuex'
-import MainMixin from '~/mixins/MainMixin'
+import MainMixin, { TOAST_TYPES } from '~/mixins/MainMixin'
 import { IToken } from '~/store/main/state'
 
 export default MainMixin.extend({
@@ -56,6 +56,7 @@ export default MainMixin.extend({
   methods: {
     handleCopy ():void {
       this.$copyText(this.userAddress)
+      this.ShowToast(`Copied: ${this.userAddress}`, TOAST_TYPES.SUCCESS)
     }
   }
 })
