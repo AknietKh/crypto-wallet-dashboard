@@ -211,7 +211,7 @@ export default class ConnectionWeb3 {
     if (+chainId !== this.chainId) {
       if ((IS_MAINNET === 'false' && NETWORKS_TESTNET[+chainId]) || (IS_MAINNET === 'true' && NETWORKS_MAINNET[+chainId])) {
         this.chainId = +chainId
-        store.commit('web3-v2/SET_CHAIN_ID', +chainId)
+        store.commit('main/setChainId', +chainId)
         // await this.connectWallet(chainId)
       } else {
         this.disconnect()
@@ -224,7 +224,7 @@ export default class ConnectionWeb3 {
     console.log('account: ', account)
     if (account.length) {
       [this.userAddress] = account
-      store.commit('web3-v2/SET_USER_ADDRESS', this.userAddress)
+      store.commit('main/setUserAddress', this.userAddress)
     } else {
       this.disconnect()
     }

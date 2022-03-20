@@ -51,7 +51,8 @@ export default MainMixin.extend({
     ...mapGetters({
       loading: 'main/getLoadingStatus',
       isConnected: 'main/getIsConnected',
-      userAddress: 'main/getUserAddress'
+      userAddress: 'main/getUserAddress',
+      chainId: 'main/getChainId'
     }),
     connectBtnText (): string | TranslateResult {
       return this.isConnected ? `${this.userAddress.slice(0, 5)}...${this.userAddress.slice(-5)}` : this.$t('header.connectWallet')
@@ -64,10 +65,31 @@ export default MainMixin.extend({
       } else {
         this.$nuxt.$loading.finish()
       }
+    },
+    async chainId (chainId, oldChainId) {
+      if (chainId !== oldChainId) {
+        try {
+          await this.$store.dispatch('main/switchChain')
+        } catch (err) {
+          console.log('err: ', err)
+          this.ShowToast('Oops, something went wrong, try to later')
+        }
+      }
+    },
+    async userAddress (userAddress, oldUserAddress) {
+      if (userAddress !== oldUserAddress) {
+        try {
+          await this.$store.dispatch('main/updateAllTokensBalance')
+        } catch (err) {
+          console.log('err: ', err)
+          this.ShowToast('Oops, something went wrong, try to later')
+        }
+      }
     }
   },
   created () {
     this.$store.dispatch('main/connectNode')
+    this.fetchTokensUrls()
   },
   methods: {
     openSidebar () {
@@ -95,6 +117,13 @@ export default MainMixin.extend({
             this.ShowToast('Oops, something went wrong, try to later')
             break
         }
+      }
+    },
+    async fetchTokensUrls () {
+      try {
+        await this.$store.dispatch('main/fetchTokenUrls')
+      } catch (err) {
+        console.log('err: ', err)
       }
     }
   }

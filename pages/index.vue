@@ -63,10 +63,18 @@ export default MainMixin.extend({
   computed: {
     ...mapGetters({
       tokensMap: 'main/getUserTokensMap',
-      isConnected: 'main/getIsConnected'
+      isConnected: 'main/getIsConnected',
+      chainId: 'main/getChainId'
     }),
     tokens (): IToken[] {
       return Object.values(this.tokensMap)
+    }
+  },
+  watch: {
+    tokens (tokens, oldTokens) {
+      if (tokens !== oldTokens) {
+        [this.selectedToken] = tokens
+      }
     }
   },
   created () {

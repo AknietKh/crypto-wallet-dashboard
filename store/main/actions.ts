@@ -32,6 +32,11 @@ const actions: ActionTree<IMainState, IMainState> = {
     commit('setChainId', connection.chainId)
     commit('setIsConnected', connection.isConnected)
   },
+  async switchChain ({ dispatch }) {
+    await dispatch('connectNode')
+    await dispatch('setUserTokens')
+    await dispatch('updateAllTokensBalance')
+  },
   setUserTokens ({ getters, commit }) {
     const chainId = getters.getChainId
     const tokens = localStorage.getItem(`tokens-${chainId}`)
@@ -63,7 +68,8 @@ const actions: ActionTree<IMainState, IMainState> = {
   },
   async updateAllTokensBalance ({ getters, commit }) {
     const userAddress = getters.getUserAddress
-    const tokens: IToken[] = Object.values(getters.getTokensMap)
+    const tokensCopy = JSON.parse(JSON.stringify(getters.getUserTokensMap))
+    const tokens: IToken[] = Object.values(tokensCopy)
 
     const updatedTokens = await Promise.all(tokens.map(async (token) => {
       let balance = '0'
