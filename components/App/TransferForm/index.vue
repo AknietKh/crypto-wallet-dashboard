@@ -1,16 +1,27 @@
 <template>
-  <validation-observer ref="form-observer">
-    <form class="transfer-form" @submit.prevent="handleTransfer">
+  <validation-observer
+    ref="form-observer"
+    v-slot="{ handleSubmit }"
+  >
+    <form class="transfer-form" @submit.prevent="handleSubmit(handleTransfer)">
       <p class="transfer-form__title">
         {{ $t('transfer-form.title') }}
       </p>
       <base-input
         v-model="amount"
+        :rules="{
+          required: true,
+          greaterThanZero: true,
+          maxDecimals: token.decimals
+        }"
+        :name="$t('transfer-form.fields.amount.label')"
         :label="$t('transfer-form.fields.amount.label')"
         :placeholder="$t('transfer-form.fields.amount.placeholder')"
       />
       <base-input
         v-model="address"
+        rules="required|isAddress"
+        :name="$t('transfer-form.fields.address.label')"
         :label="$t('transfer-form.fields.address.label')"
         :placeholder="$t('transfer-form.fields.address.placeholder')"
       />
@@ -28,14 +39,29 @@
 </template>
 
 <script lang="ts">
+import { PropType } from 'vue'
 import MainMixin from '~/mixins/MainMixin'
+import { IToken } from '~/store/main/state'
 
 export default MainMixin.extend({
   name: 'TransferForm',
+  props: {
+    token: {
+      type: Object as PropType<IToken>,
+      required: true
+    }
+  },
   data () {
     return {
       amount: null,
       address: ''
+    }
+  },
+  computed: {
+  },
+  methods: {
+    handleTransfer () {
+      console.log('transger')
     }
   }
 })

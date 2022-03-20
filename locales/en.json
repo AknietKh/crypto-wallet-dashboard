@@ -67,6 +67,8 @@
     "required": "The {_field_} is required",
     "size": "The {_field_} field size must be less than {size}KB",
     "decimal": "The {_field_} field must contain only decimal values",
-    "isAddress": "The {_field_} field must contain valid token address"
+    "isAddress": "The {_field_} field must contain valid token address",
+    "greaterThanZero": "The {_field_} field must be greater than 0",
+    "maxDecimals": "The {_field_} decimals must be less than {decimals}"
   }
 }

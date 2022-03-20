@@ -29,7 +29,7 @@
       </div>
     </section>
     <section class="main-page__section">
-      <transfer-form />
+      <transfer-form :token="selectedToken" />
     </section>
     <section class="main-page__section">
       <transactions-table />

@@ -34,3 +34,19 @@ export default ({ app }: Context) => {
 extend('isAddress', {
   validate: value => Web3.utils.isAddress(value)
 })
+
+extend('greaterThanZero', {
+  validate: value => value > 0
+})
+
+extend('maxDecimals', {
+  validate: (value, params): boolean => {
+    const { decimals } = params as { decimals: number }
+    const arr = value.toString().trim().split('.')
+    if (arr.length === 2) {
+      return +arr[1].length <= +decimals
+    }
+    return true
+  },
+  params: ['decimals']
+})
