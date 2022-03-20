@@ -97,3 +97,25 @@ export const getBalanceNativeToken = async (userAddress: string): Promise<string
   const balance = await web3Wallet.eth.getBalance(userAddress)
   return balance
 }
+
+// EVENTS
+type eventPayload = { abi: AbiItem[], address: string, userAddress: string }
+type eventCallback = (err: any, data: any) => void
+
+export const subscribeToContractEvents = ({ abi, address, userAddress }: eventPayload, cb: eventCallback) => {
+  const instance = createContractWalletInstance(abi, address)
+  const filter = {
+    sender: [userAddress]
+  }
+
+  instance.events.allEvents({ filter, fromBlock: 0 }, (err: any, data: any) => {
+    console.log('err, data: ', err, data)
+    cb(err, data)
+  })
+    .on('data', (ev: any) => {
+      console.log('ev: ', ev)
+    })
+    .on('error', (err: any) => {
+      console.log('subscribeToEvents', err)
+    })
+}
