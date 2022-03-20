@@ -1,6 +1,6 @@
 
 import { ActionTree } from 'vuex/types/index'
-import { IMainState, ITrustwalletToken, ITokensUrlsMap, ITokensMap, IToken } from '~/store/main/state'
+import { IMainState, ITrustwalletToken, ITokensUrlsMap, IToken } from '~/store/main/state'
 import { NATIVE_TOKENS_LIST, NATIVE_TOKEN_ADDRESS, NETWORKS_MAINNET, NETWORKS_TESTNET } from '~/web3/configs/constants'
 import ConnectionWeb3 from '~/web3/Connection'
 import { fetchContractData, getBalanceNativeToken, shiftedBy } from '~/web3/helpers'
@@ -28,19 +28,19 @@ const actions: ActionTree<IMainState, IMainState> = {
   },
   setUserTokens ({ getters, commit }) {
     const chainId = getters.getChainId
-    const tokens: ITokensMap = JSON.parse(JSON.stringify(localStorage.getItem(`tokens-${chainId}`)))
+    const tokens = localStorage.getItem(`tokens-${chainId}`)
     console.log('tokens: ', tokens)
 
     if (!tokens || !Object.keys(tokens).length) {
       const currentChainName = JSON.parse(`${process.env.IS_MAINNET}`) ? NETWORKS_MAINNET[chainId] : NETWORKS_TESTNET[chainId]
       const nativeToken = NATIVE_TOKENS_LIST[currentChainName]
-      console.log('nativeToken: ', nativeToken)
-      localStorage.setItem('tokens', JSON.stringify({ [nativeToken.address]: nativeToken }))
+
+      localStorage.setItem(`tokens-${chainId}`, JSON.stringify({ [nativeToken.address]: nativeToken }))
       commit('setUserTokens', { [nativeToken.address]: nativeToken })
       return
     }
 
-    commit('setUserTokens', tokens)
+    commit('setUserTokens', JSON.parse(tokens))
   },
   async updateAllTokensBalance ({ getters, commit }) {
     const userAddress = getters.getUserAddress
