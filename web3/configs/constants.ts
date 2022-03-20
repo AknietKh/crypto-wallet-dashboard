@@ -36,21 +36,21 @@ export type NativeTokenList = {
 export const NATIVE_TOKENS_LIST: NativeTokenList = {
   ETH: {
     address: '0x0000000000000000000000000000000000000000',
-    decimals: 18,
+    decimals: '18',
     name: 'Ethereum',
     symbol: 'ETH',
     balance: null
   },
   BSC: {
     address: '0x0000000000000000000000000000000000000000',
-    decimals: 18,
+    decimals: '18',
     name: 'Binance Coin',
     symbol: 'BNB',
     balance: null
   },
   POLYGON: {
     address: '0x0000000000000000000000000000000000000000',
-    decimals: 18,
+    decimals: '18',
     name: 'Polygon (MATIC)',
     symbol: 'MATIC',
     balance: null

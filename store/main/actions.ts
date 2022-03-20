@@ -3,8 +3,14 @@ import { ActionTree } from 'vuex/types/index'
 import { IMainState, ITrustwalletToken, ITokensUrlsMap, IToken } from '~/store/main/state'
 import { NATIVE_TOKENS_LIST, NATIVE_TOKEN_ADDRESS, NETWORKS_MAINNET, NETWORKS_TESTNET } from '~/web3/configs/constants'
 import ConnectionWeb3 from '~/web3/Connection'
-import { fetchContractData, getBalanceNativeToken, shiftedBy } from '~/web3/helpers'
+import { fetchContractData, fetchContractDataByWallet, getBalanceNativeToken, sendDataToContract, sendTransaction, shiftedBy } from '~/web3/helpers'
 import ERC20 from '~/web3/abis/erc20'
+
+export interface ITransactionFormPayload {
+  recipient: string,
+  token: IToken,
+  amount: number
+}
 
 const actions: ActionTree<IMainState, IMainState> = {
   setLoading ({ commit }, status) {
@@ -69,7 +75,7 @@ const actions: ActionTree<IMainState, IMainState> = {
       }
 
       // eslint-disable-next-line no-param-reassign
-      token.balance = +shiftedBy(balance, token.decimals.toString())
+      token.balance = +shiftedBy(balance, token.decimals)
       return token
     }))
 
@@ -86,9 +92,60 @@ const actions: ActionTree<IMainState, IMainState> = {
       balance = await fetchContractData({ address: token.address, abi: ERC20, method: 'balanceOf', params: [userAddress] })
     }
     // eslint-disable-next-line no-param-reassign
-    balance = shiftedBy(balance, token.decimals.toString())
+    balance = shiftedBy(balance, token.decimals)
 
     commit('updateTokenBalance', { token, balance })
+  },
+  async approveToken ({ getters }, { recipient, token, amount }: ITransactionFormPayload) {
+    const userAddress: string = getters.getUserAddress
+
+    const allowance = await fetchContractDataByWallet({
+      address: token.address,
+      abi: ERC20,
+      method: 'allowance',
+      params: [userAddress, recipient]
+    })
+    const preparedAllowance = shiftedBy(allowance, token.decimals)
+
+    if (+preparedAllowance >= +amount) {
+      return preparedAllowance
+    }
+
+    const approveAmount = '1000000000'
+    await sendDataToContract({
+      address: token.address,
+      method: 'approve',
+      params: [recipient, shiftedBy('1000000000', token.decimals, false)],
+      abi: ERC20
+    }, userAddress)
+
+    return approveAmount
+  },
+  async transferERC20Token ({ getters }, { recipient, amount, token }: ITransactionFormPayload) {
+    const userAddress: string = getters.getUserAddress
+    const preparedAmount = shiftedBy(`${amount}`, token.decimals, false)
+
+    const transferTx = await sendDataToContract({
+      address: token.address,
+      abi: ERC20,
+      method: 'transfer',
+      params: [recipient, preparedAmount]
+    }, userAddress)
+
+    return transferTx
+  },
+  async transferNativeToken ({ getters }, { recipient, amount, token }: ITransactionFormPayload) {
+    const userAddress: string = getters.getUserAddress
+    const preparedAmount = shiftedBy(`${amount}`, token.decimals, false)
+
+    const transferTx = await sendTransaction({
+      from: userAddress,
+      to: recipient,
+      value: preparedAmount
+    })
+    console.log('transferTx: ', transferTx)
+
+    return transferTx
   },
   async fetchTokenUrls ({ commit }) {
     const [

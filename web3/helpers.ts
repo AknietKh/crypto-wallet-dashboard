@@ -15,6 +15,12 @@ export interface IHelpersArgs {
   abi: AbiItem[]
 }
 
+export interface ITransactionPayload {
+  from: string,
+  to: string,
+  value: string | number
+}
+
 export const error = (code: number, msg?: string, _err?: any): void => {
   const err: ICustomError = _err ?? new Error(msg ?? 'custom error')
   err.ok = false
@@ -25,7 +31,7 @@ export const error = (code: number, msg?: string, _err?: any): void => {
 
 export const shiftedBy = (value: string, decimals: string, isShiftedToLeft = true): string => {
   const decimalsInt = isShiftedToLeft ? -parseInt(decimals, 10) : parseInt(decimals, 10)
-  return new BigNumber(value).shiftedBy(decimalsInt).toString()
+  return new BigNumber(value).shiftedBy(decimalsInt).toFixed()
 }
 
 export const createContractAnonInstance = (abi: Array<AbiItem>, address: string): any => {
@@ -55,7 +61,7 @@ export const fetchContractData = async ({ address, method, params, abi }: IHelpe
 }
 
 export const fetchContractDataByWallet = async ({ address, method, params, abi }: IHelpersArgs): Promise<any> => {
-  const instance : any = createContractAnonInstance(abi, address)
+  const instance : any = createContractWalletInstance(abi, address)
   const tx = await instance.methods[method].apply(this, params).call()
   return tx
 }
@@ -63,6 +69,12 @@ export const fetchContractDataByWallet = async ({ address, method, params, abi }
 export const sendDataToContract = async ({ address, method, params, abi }: IHelpersArgs, userAddress: string): Promise<any> => {
   const instance : any = createContractWalletInstance(abi, address)
   const tx = await instance.methods[method].apply(this, params).send({ from: userAddress })
+  return tx
+}
+
+export const sendTransaction = async ({ from, to, value }: ITransactionPayload): Promise<any> => {
+  const connection = ConnectionWeb3.getInstance()
+  const tx = await connection.web3Wallet.eth.sendTransaction({ from, to, value })
   return tx
 }
 

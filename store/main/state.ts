@@ -19,7 +19,7 @@ export interface ITokensUrlsMap {
 export interface IToken {
   symbol: string,
   name?: string,
-  decimals: number,
+  decimals: string,
   address: string,
   balance?: number | null
 }
