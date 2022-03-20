@@ -6,6 +6,9 @@
 # install dependencies
 $ npm install
 
+# create .env file with default values
+$ cp example.env .env
+
 # serve with hot reload at localhost:3000
 $ npm run dev
 
@@ -22,6 +25,12 @@ For detailed explanation on how things work, check out the [documentation](https
 ## Special Directories
 
 You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+
+### `web3`
+The web3 directory contains logic related to contracts and provider connection.
+
+### `mixins`
+The mixins directory contains functions available in all Vue components
 
 ### `assets`
 
@@ -67,3 +76,4 @@ More information about the usage of this directory in [the documentation](https:
 This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+
