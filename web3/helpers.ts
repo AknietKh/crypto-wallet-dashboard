@@ -38,7 +38,7 @@ export const createContractAnonInstance = (abi: Array<AbiItem>, address: string)
   const connection = ConnectionWeb3.getInstance()
 
   if (!connection.web3Guest) {
-    throw new Error('anonymous web3 connection not initizlized')
+    throw error(404, 'anonymous web3 connection not initizlized')
   }
 
   return new connection.web3Guest.eth.Contract(abi, address)
@@ -48,24 +48,27 @@ export const createContractWalletInstance = (abi: Array<AbiItem>, address: strin
   const connection = ConnectionWeb3.getInstance()
 
   if (!connection.web3Wallet) {
-    throw new Error('wallet web3 connection not initizlized')
+    throw error(404, 'wallet web3 connection not initizlized')
   }
 
   return new connection.web3Wallet.eth.Contract(abi, address)
 }
 
+// receives data from the contract using an anonymous provider
 export const fetchContractData = async ({ address, method, params, abi }: IHelpersArgs): Promise<any> => {
   const instance : any = createContractAnonInstance(abi, address)
   const tx = await instance.methods[method].apply(this, params).call()
   return tx
 }
 
+// receives data from the contract using an wallet provider
 export const fetchContractDataByWallet = async ({ address, method, params, abi }: IHelpersArgs): Promise<any> => {
   const instance : any = createContractWalletInstance(abi, address)
   const tx = await instance.methods[method].apply(this, params).call()
   return tx
 }
 
+// function to call the contract method and send data
 export const sendDataToContract = async ({ address, method, params, abi }: IHelpersArgs, userAddress: string): Promise<any> => {
   const instance : any = createContractWalletInstance(abi, address)
   const tx = await instance.methods[method].apply(this, params).send({ from: userAddress })
@@ -78,6 +81,7 @@ export const sendTransaction = async ({ from, to, value }: ITransactionPayload):
   return tx
 }
 
+// calculates the cost of a transaction
 export const getFee = async ({ address, method, params, abi }: IHelpersArgs, userAddress: string): Promise<string> => {
   const contract: any = createContractWalletInstance(abi, address)
   const connection = ConnectionWeb3.getInstance()
@@ -92,13 +96,14 @@ export const getFee = async ({ address, method, params, abi }: IHelpersArgs, use
   return connection.web3Guest.utils.fromWei(new BigNumber(gasPrice).multipliedBy(estimateGas).toFixed())
 }
 
+// returns the balance of the native network token
 export const getBalanceNativeToken = async (userAddress: string): Promise<string> => {
   const { web3Wallet } = ConnectionWeb3.getInstance()
   const balance = await web3Wallet.eth.getBalance(userAddress)
   return balance
 }
 
-// EVENTS
+// TODO: EVENTS
 type eventPayload = { abi: AbiItem[], address: string, userAddress: string }
 type eventCallback = (err: any, data: any) => void
 
