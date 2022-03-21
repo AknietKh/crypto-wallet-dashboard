@@ -32,6 +32,10 @@ const actions: ActionTree<IMainState, IMainState> = {
     commit('setChainId', connection.chainId)
     commit('setIsConnected', connection.isConnected)
   },
+  disconnectWallet ({ commit }) {
+    commit('setUserAddress', '')
+    commit('setIsConnected', false)
+  },
   async switchChain ({ dispatch }) {
     await dispatch('connectNode')
     await dispatch('setUserTokens')

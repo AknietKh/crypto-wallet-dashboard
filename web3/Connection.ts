@@ -52,7 +52,7 @@ export default class ConnectionWeb3 {
   // eslint-disable-next-line no-useless-constructor, @typescript-eslint/no-empty-function
   private constructor () {}
 
-  // Метод для создания инстанса в единственном экзмеляре (паттерн Singleton)
+  // Method for creating an instance in a single instance (Singleton pattern)
   public static getInstance (): ConnectionWeb3 {
     if (!ConnectionWeb3.instance) {
       ConnectionWeb3.instance = new ConnectionWeb3()
@@ -61,7 +61,7 @@ export default class ConnectionWeb3 {
     return ConnectionWeb3.instance
   }
 
-  // Метод для анонимного подключения к ноде
+  // Method for anonymous connection to a node
   public connectAnonProvider (chainId: number): void {
     const providersUrl = JSON.parse(`${process.env.IS_MAINNET}`) ? ANON_PROVIDERS_MAINNET : ANON_PROVIDERS_TESTNET
 
@@ -69,7 +69,7 @@ export default class ConnectionWeb3 {
     this.web3Guest = new Web3(provider)
   }
 
-  // Подключение к кошельку metamask/coinbase
+  // Connection to metamask/coinbase wallet
   public async connectWallet (defaultChain: number, type = 'metamask') : Promise<void> {
     const currentProvider = ConnectionWeb3.getEthereumProvider(type)
 
@@ -77,15 +77,12 @@ export default class ConnectionWeb3 {
       // unsubscribe to metamask events
       currentProvider.removeListener('chainChanged', this.handleChainChanged)
       currentProvider.removeListener('accountsChanged', this.handleAccountsChanged)
-      currentProvider.removeListener('disconnect', this.handleMMDisconnected)
       // subscribe to metamask events
       currentProvider.on('chainChanged', this.handleChainChanged)
       currentProvider.on('accountsChanged', this.handleAccountsChanged)
-      currentProvider.on('disconnect', this.handleMMDisconnected)
 
       this.web3Wallet = new Web3(currentProvider) // init web3
 
-      console.log('currentProvider.isConnected(): ', currentProvider.isConnected())
       if (currentProvider.isConnected()) { // is metamask connected
         await currentProvider.enable() // connect provider wallet
       }
@@ -99,10 +96,11 @@ export default class ConnectionWeb3 {
       }
     } catch (err) {
       console.log('err: ', err)
+      this.disconnect()
     }
   }
 
-  // Переключение сетей в метамаске с использованием api метамаска
+  // Switching networks in metamask using the metamask api
   public async changeCurrentMMChain (tragetChainID: number, type = 'metamask'): Promise<void> {
     const currentProvider = ConnectionWeb3.getEthereumProvider(type)
 
@@ -198,40 +196,39 @@ export default class ConnectionWeb3 {
   // отписка от ивентов метамаска
   private disconnect (): void {
     const { ethereum } = window
-    console.log('Disconnected')
 
     ethereum.removeListener('chainChanged', this.handleChainChanged)
     ethereum.removeListener('accountsChanged', this.handleAccountsChanged)
-    ethereum.removeListener('disconnect', this.handleMMDisconnected)
+
+    store.dispatch('main/disconnectWallet')
   }
 
-  // функция обработчик для ивента переключения сети chainChanged
-  private handleChainChanged (chainId: string): void {
+  // update chainId on network change
+  private handleChainChanged = (chainId: string): void => {
     const { IS_MAINNET } = process.env
     if (+chainId !== this.chainId) {
       if ((IS_MAINNET === 'false' && NETWORKS_TESTNET[+chainId]) || (IS_MAINNET === 'true' && NETWORKS_MAINNET[+chainId])) {
         this.chainId = +chainId
         store.commit('main/setChainId', +chainId)
-        // await this.connectWallet(chainId)
       } else {
+        // TODO:
+        /* Feature: give the user the choice to stay on an unsupported network or return to one of the supported networks.
+          If chooses to stay on an unsupported network, then disconnect (this.disconnect) and delete data,
+          otherwise switch to another network
+        */
         this.disconnect()
+        console.warn('THIS NETWORK NOT SUPPORTED')
       }
     }
   }
 
-  // функция обработчик для ивента переключения счета/аккаунта accountsChanged
-  private handleAccountsChanged (account: Array<string>): void {
-    console.log('account: ', account)
+  // update the user's address when changing the account/account
+  private handleAccountsChanged = (account: Array<string>): void => {
     if (account.length) {
       [this.userAddress] = account
       store.commit('main/setUserAddress', this.userAddress)
     } else {
       this.disconnect()
     }
-  }
-
-  // функция обработчик для ивента disconnect
-  private handleMMDisconnected (): void {
-    this.disconnect()
   }
 }

@@ -77,7 +77,7 @@ export default MainMixin.extend({
       }
     },
     async userAddress (userAddress, oldUserAddress) {
-      if (userAddress !== oldUserAddress) {
+      if (userAddress && userAddress !== oldUserAddress) {
         try {
           await this.$store.dispatch('main/updateAllTokensBalance')
         } catch (err) {
